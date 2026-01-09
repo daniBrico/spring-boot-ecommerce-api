@@ -15,4 +15,8 @@ public class ProductService {
   public ArrayList<ProductModel> getProducts() {
     return (ArrayList<ProductModel>) productRepository.findAll();
   }
+
+  public ProductModel setProduct(ProductModel product) {
+    return productRepository.save(product);
+  }
 }
