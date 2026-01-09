@@ -1,46 +1,42 @@
 package ecommerce_java_springboot.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
-public class UserModel {
+@Table(name = "product")
+public class ProductModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(unique = true, nullable = false )
   private Long id;
-
-  @NotNull
-  @Column(nullable = false)
-  private String password;
 
   @NotNull
   @Column(nullable = false)
   private String name;
 
-  @NotNull
-  @Column(nullable = false, unique = true)
-  private String email;
+  private String description;
 
-  @NotNull
-  @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private Role role;
+  private float price;
 
-  @NotNull
-  @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private UserStatus status;
+  private int stock;
+
+  @Column(nullable = false)
+  private Boolean state;
 
   @NotNull
   @Column(nullable = false)
+  private String category;
+
+  @NotNull
+  @Column(nullable = false, updatable = false)
   private LocalDateTime createdAt;
 
   @PrePersist
