@@ -1,14 +1,17 @@
 package ecommerce_java_springboot.models;
 
+import ecommerce_java_springboot.models.enums.Role;
+import ecommerce_java_springboot.models.enums.UserStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name = "users")
 public class UserModel {
@@ -30,14 +33,16 @@ public class UserModel {
   private String email;
 
   @NotNull
+  @Builder.Default
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private Role role;
+  private Role role = Role.CUSTOMER;
 
   @NotNull
+  @Builder.Default
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private UserStatus status;
+  private UserStatus status = UserStatus.ACTIVE;
 
   @NotNull
   @Column(nullable = false)
@@ -47,4 +52,7 @@ public class UserModel {
   protected void onCreate() {
     createdAt = LocalDateTime.now();
   }
+
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  private List<TokenModel> tokens;
 }
