@@ -1,10 +1,9 @@
 package ecommerce_java_springboot.services;
 
+import ecommerce_java_springboot.dto.AuthResponse;
+import ecommerce_java_springboot.dto.LoginRequest;
 import ecommerce_java_springboot.dto.RegisterRequest;
-import ecommerce_java_springboot.dto.TokenResponse;
-import ecommerce_java_springboot.models.TokenModel;
 import ecommerce_java_springboot.models.UserModel;
-import ecommerce_java_springboot.repositories.TokenRepository;
 import ecommerce_java_springboot.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,34 +12,40 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private final UserRepository userRepository;
-    private final TokenRepository tokenRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
 
-    public TokenResponse register(RegisterRequest request) {
-        var user = UserModel.builder()
-                .name(request.name())
-                .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
-                .build();
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
+  private final JwtService jwtService;
 
-        var savedUser = userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(savedUser, jwtToken);
-        return new TokenResponse(jwtToken, refreshToken);
+  public AuthResponse login(LoginRequest request) {
+    UserModel user = userRepository
+      .findByEmail(request.email())
+      .orElseThrow(() -> new RuntimeException("User not found"));
+
+    if (!passwordEncoder.matches(request.password(), user.getPassword())) {
+      throw new RuntimeException("Invalid credentials");
     }
 
-    private void saveUserToken(UserModel user, String jwtToken) {
-        var token = TokenModel.builder()
-                .user(user)
-                .token(jwtToken)
-                .tokenType(TokenModel.TokenType.BEARER)
-                .expired(false)
-                .revoked(false)
-                .build();
+    String token = jwtService.generateToken(user);
 
-        tokenRepository.save(token);
+    return new AuthResponse(token);
+  }
+
+  public AuthResponse register(RegisterRequest request) {
+    if (userRepository.findByEmail(request.email()).isPresent()) {
+      throw new RuntimeException("Email already exists");
     }
+
+    UserModel user = UserModel.builder()
+      .email(request.email())
+      .name(request.name())
+      .password(passwordEncoder.encode(request.password()))
+      .build();
+
+    userRepository.save(user);
+
+    String token = jwtService.generateToken(user);
+
+    return new AuthResponse(token);
+  }
 }
