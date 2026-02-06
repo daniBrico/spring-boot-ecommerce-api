@@ -1,8 +1,8 @@
 package ecommerce_java_springboot.services;
 
-import ecommerce_java_springboot.dto.AuthResponse;
-import ecommerce_java_springboot.dto.LoginRequest;
-import ecommerce_java_springboot.dto.RegisterRequest;
+import ecommerce_java_springboot.dto.response.AuthResponse;
+import ecommerce_java_springboot.dto.request.LoginRequest;
+import ecommerce_java_springboot.dto.request.RegisterRequest;
 import ecommerce_java_springboot.models.UserModel;
 import ecommerce_java_springboot.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class AuthService {
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
 
-  public AuthResponse login(LoginRequest request) {
+  public UserModel login(LoginRequest request) {
     UserModel user = userRepository
       .findByEmail(request.email())
       .orElseThrow(() -> new RuntimeException("User not found"));
@@ -26,12 +26,10 @@ public class AuthService {
       throw new RuntimeException("Invalid credentials");
     }
 
-    String token = jwtService.generateToken(user);
-
-    return new AuthResponse(token);
+    return user;
   }
 
-  public AuthResponse register(RegisterRequest request) {
+  public UserModel register(RegisterRequest request) {
     if (userRepository.findByEmail(request.email()).isPresent()) {
       throw new RuntimeException("Email already exists");
     }
@@ -44,8 +42,6 @@ public class AuthService {
 
     userRepository.save(user);
 
-    String token = jwtService.generateToken(user);
-
-    return new AuthResponse(token);
+    return user;
   }
 }
