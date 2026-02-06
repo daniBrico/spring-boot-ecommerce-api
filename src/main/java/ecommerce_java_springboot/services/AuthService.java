@@ -1,5 +1,8 @@
 package ecommerce_java_springboot.services;
 
+import ecommerce_java_springboot.common.exception.EmailAlreadyExistsException;
+import ecommerce_java_springboot.common.exception.InvalidCredentialsException;
+import ecommerce_java_springboot.common.exception.UserNotFoundException;
 import ecommerce_java_springboot.dto.response.AuthResponse;
 import ecommerce_java_springboot.dto.request.LoginRequest;
 import ecommerce_java_springboot.dto.request.RegisterRequest;
@@ -18,12 +21,11 @@ public class AuthService {
   private final JwtService jwtService;
 
   public UserModel login(LoginRequest request) {
-    UserModel user = userRepository
-      .findByEmail(request.email())
-      .orElseThrow(() -> new RuntimeException("User not found"));
+    UserModel user =
+        userRepository.findByEmail(request.email()).orElseThrow(UserNotFoundException::new);
 
     if (!passwordEncoder.matches(request.password(), user.getPassword())) {
-      throw new RuntimeException("Invalid credentials");
+      throw new InvalidCredentialsException();
     }
 
     return user;
@@ -31,14 +33,15 @@ public class AuthService {
 
   public UserModel register(RegisterRequest request) {
     if (userRepository.findByEmail(request.email()).isPresent()) {
-      throw new RuntimeException("Email already exists");
+      throw new EmailAlreadyExistsException();
     }
 
-    UserModel user = UserModel.builder()
-      .email(request.email())
-      .name(request.name())
-      .password(passwordEncoder.encode(request.password()))
-      .build();
+    UserModel user =
+        UserModel.builder()
+            .email(request.email())
+            .name(request.name())
+            .password(passwordEncoder.encode(request.password()))
+            .build();
 
     userRepository.save(user);
 
