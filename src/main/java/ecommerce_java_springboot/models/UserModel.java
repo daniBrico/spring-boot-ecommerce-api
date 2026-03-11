@@ -19,11 +19,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class UserModel implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(unique = true, nullable = false )
+  @Column(unique = true, nullable = false)
   private Long id;
 
   @NotNull
@@ -93,5 +93,4 @@ public class UserModel implements UserDetails {
   public boolean isEnabled() {
     return status == UserStatus.ACTIVE;
   }
-
 }
