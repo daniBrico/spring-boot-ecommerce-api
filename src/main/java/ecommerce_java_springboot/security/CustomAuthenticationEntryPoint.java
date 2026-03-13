@@ -29,7 +29,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
                     "message": "Authentication required",
                     "path": "%s"
                 }
-                """.formatted(request.getRequestURL());
+                """.formatted(request.getRequestURI());
 
         response.getWriter().write(body);
     }
