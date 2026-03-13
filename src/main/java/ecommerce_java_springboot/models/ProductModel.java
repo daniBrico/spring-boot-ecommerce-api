@@ -15,34 +15,34 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "product")
 public class ProductModel {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @NotNull
-  @Column(nullable = false)
-  private String name;
+    @NotNull
+    @Column(nullable = false)
+    private String name;
 
-  @NotNull
-  @Column(nullable = false)
-  private String description;
+    @NotNull
+    @Column(nullable = false)
+    private String description;
 
-  @Column(nullable = false)
-  private BigDecimal price;
+    @Column(nullable = false)
+    private BigDecimal price;
 
-  @Column(nullable = false)
-  private int stock;
+    @Column(nullable = false)
+    private int stock;
 
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
-  private ProductState state;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ProductState state;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "category_id", nullable = false)
-  private CategoryModel category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private CategoryModel category;
 
-  @CreationTimestamp
-  @NotNull
-  @Column(nullable = false, updatable = false)
-  private LocalDateTime createdAt;
+    @CreationTimestamp
+    @NotNull
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 }

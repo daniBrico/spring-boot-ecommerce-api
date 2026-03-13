@@ -14,43 +14,46 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
 
-  private final AuthService authService;
-  private final JwtCookieManager jwtCookieManager;
-  private final JwtService jwtService;
+    private final AuthService authService;
+    private final JwtCookieManager jwtCookieManager;
+    private final JwtService jwtService;
 
-  @PostMapping("/login")
-  public ResponseEntity<ApiResponse<LoginResponse>> login(
-      @RequestBody LoginRequest request, HttpServletResponse response) {
-    UserModel user = authService.login(request);
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<LoginResponse>> login(
+            @RequestBody LoginRequest request, HttpServletResponse response) {
+        UserModel user = authService.login(request);
 
-    String token = jwtService.generateToken(user);
-    jwtCookieManager.addJwtCookie(response, token);
+        String token = jwtService.generateToken(user);
+        jwtCookieManager.addJwtCookie(response, token);
 
-    LoginResponse loginResponse =
-        new LoginResponse(new UserResponse(user.getId(), user.getName(), user.getEmail()));
+        LoginResponse loginResponse =
+                new LoginResponse(new UserResponse(user.getId(), user.getName(), user.getEmail()));
 
-    return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(true, loginResponse));
-  }
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(true, loginResponse));
+    }
 
-  @PostMapping("/register")
-  public ResponseEntity<ApiResponse<RegisterResponse>> register(
-      @RequestBody RegisterRequest request, HttpServletResponse response) {
-    UserModel user = authService.register(request);
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponse<RegisterResponse>> register(
+            @RequestBody RegisterRequest request, HttpServletResponse response) {
+        UserModel user = authService.register(request);
 
-    String token = jwtService.generateToken(user);
-    jwtCookieManager.addJwtCookie(response, token);
+        String token = jwtService.generateToken(user);
+        jwtCookieManager.addJwtCookie(response, token);
 
-    RegisterResponse registerResponse =
-        new RegisterResponse(new UserResponse(user.getId(), user.getName(), user.getEmail()));
+        RegisterResponse registerResponse =
+                new RegisterResponse(new UserResponse(user.getId(), user.getName(), user.getEmail()));
 
-    return ResponseEntity.status(HttpStatus.CREATED)
-        .body(new ApiResponse<>(true, registerResponse));
-  }
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ApiResponse<>(true, registerResponse));
+    }
 }

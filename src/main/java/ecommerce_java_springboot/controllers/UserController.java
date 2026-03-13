@@ -10,16 +10,16 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-  @Autowired
-  UserService userService;
+    @Autowired
+    UserService userService;
 
-  @GetMapping()
-  public ArrayList<UserModel> getUsers() {
-    return userService.getUsers();
-  }
+    @GetMapping()
+    public ArrayList<UserModel> getUsers() {
+        return userService.getUsers();
+    }
 
-  @PostMapping()
-  public UserModel setUser(@RequestBody UserModel user) {
-    return this.userService.setUser(user);
-  }
+    @PostMapping()
+    public UserModel setUser(@RequestBody UserModel user) {
+        return this.userService.setUser(user);
+    }
 }

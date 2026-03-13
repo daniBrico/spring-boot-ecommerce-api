@@ -22,55 +22,55 @@ import java.util.List;
 @AllArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-  private JwtService jwtService;
-  private UserRepository userRepository;
+    private JwtService jwtService;
+    private UserRepository userRepository;
 
-  @Override
-  protected void doFilterInternal(
-    @NonNull HttpServletRequest request,
-    @NonNull HttpServletResponse response,
-    @NonNull FilterChain filterChain
-  ) throws ServletException, IOException {
+    @Override
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
 
-    String token = extractTokenFromCookie(request);
+        String token = extractTokenFromCookie(request);
 
-    if (token == null) {
-      filterChain.doFilter(request, response);
-      return;
+        if (token == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if (!jwtService.isTokenValid(token)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String email = jwtService.extractUsername(token);
+
+        if (SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            UserModel user = userRepository.findByEmail(email).orElse(null);
+
+            if (user != null) {
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, List.of());
+
+                SecurityContextHolder.getContext().setAuthentication(auth);
+                System.out.println("SECURITY CONTEXT:");
+                System.out.println(SecurityContextHolder.getContext());
+            }
+        }
+
+        filterChain.doFilter(request, response);
     }
 
-    if (!jwtService.isTokenValid(token)) {
-      filterChain.doFilter(request, response);
-      return;
+    private String extractTokenFromCookie(HttpServletRequest request) {
+        if (request.getCookies() == null) return null;
+
+        for (Cookie cookie : request.getCookies()) {
+            if ("jwt".equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+
+        return null;
     }
-
-    String email = jwtService.extractUsername(token);
-
-    if (SecurityContextHolder.getContext().getAuthentication() == null) {
-
-      UserModel user = userRepository.findByEmail(email).orElse(null);
-
-      if (user != null) {
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, List.of());
-
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        System.out.println("SECURITY CONTEXT:");
-        System.out.println(SecurityContextHolder.getContext());
-      }
-    }
-
-    filterChain.doFilter(request, response);
-  }
-
-  private String extractTokenFromCookie(HttpServletRequest request) {
-    if (request.getCookies() == null) return null;
-
-    for (Cookie cookie : request.getCookies()) {
-      if ("jwt".equals(cookie.getName())){
-        return cookie.getValue();
-      }
-    }
-
-    return null;
-  }
 }

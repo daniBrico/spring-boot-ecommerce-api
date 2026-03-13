@@ -23,13 +23,13 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.setContentType("application/json");
 
         String body = """
-        {
-            "status": 403,
-            "error": "Forbidden",
-            "message": "You do not have permission to access this resource",
-            "path": "%s"
-        }
-        """.formatted(request.getRequestURI());
+                {
+                    "status": 403,
+                    "error": "Forbidden",
+                    "message": "You do not have permission to access this resource",
+                    "path": "%s"
+                }
+                """.formatted(request.getRequestURI());
 
         response.getWriter().write(body);
     }
