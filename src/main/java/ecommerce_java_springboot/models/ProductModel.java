@@ -2,6 +2,7 @@ package ecommerce_java_springboot.models;
 
 import ecommerce_java_springboot.models.enums.ProductState;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,12 +20,12 @@ public class ProductModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false)
     private String name;
 
-    @NotNull
     @Column(nullable = false)
+    @NotBlank
     private String description;
 
     @Column(nullable = false)
