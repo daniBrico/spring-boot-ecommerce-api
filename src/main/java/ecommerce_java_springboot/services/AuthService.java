@@ -8,6 +8,8 @@ import ecommerce_java_springboot.dto.request.RegisterRequest;
 import ecommerce_java_springboot.models.UserModel;
 import ecommerce_java_springboot.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +41,16 @@ public class AuthService {
         userRepository.save(user);
 
         return user;
+    }
+
+    public UserModel getCurrentUser() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || authentication.getPrincipal() == null) {
+            throw new InvalidCredentialsException("Invalid credentials");
+        }
+
+        return (UserModel) authentication.getPrincipal();
     }
 }
