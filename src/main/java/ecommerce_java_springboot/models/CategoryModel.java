@@ -3,12 +3,16 @@ package ecommerce_java_springboot.models;
 import ecommerce_java_springboot.models.enums.CategoryState;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "category")
+@Setter
+@Getter
 public class CategoryModel {
 
     @Id
