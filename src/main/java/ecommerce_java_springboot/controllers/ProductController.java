@@ -1,10 +1,12 @@
 package ecommerce_java_springboot.controllers;
 
-import ecommerce_java_springboot.dto.ProductDTO;
-import ecommerce_java_springboot.models.ProductModel;
+import ecommerce_java_springboot.dto.product.CreateProductRequest;
+import ecommerce_java_springboot.dto.product.ProductDTO;
 import ecommerce_java_springboot.repositories.ProductRepository;
 import ecommerce_java_springboot.services.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +28,9 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductModel setProduct(@RequestBody ProductModel product) {
-        return productRepository.save(product);
+    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody CreateProductRequest request) {
+        ProductDTO product = productService.createProduct(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 }
