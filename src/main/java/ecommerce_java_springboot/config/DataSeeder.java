@@ -3,6 +3,7 @@ package ecommerce_java_springboot.config;
 import ecommerce_java_springboot.models.CategoryModel;
 import ecommerce_java_springboot.models.ProductModel;
 import ecommerce_java_springboot.models.enums.CategoryState;
+import ecommerce_java_springboot.models.enums.ProductState;
 import ecommerce_java_springboot.repositories.CategoryRepository;
 import ecommerce_java_springboot.repositories.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Configuration
 public class DataSeeder {
@@ -70,6 +72,8 @@ public class DataSeeder {
         newProduct.setPrice(price);
         newProduct.setStock(stock);
         newProduct.setCategory(category);
+        newProduct.setState(ProductState.ACTIVE);
+        newProduct.setCreatedAt(LocalDateTime.now());
 
         return newProduct;
     }
