@@ -32,21 +32,26 @@ public class DataSeeder {
 
     @Bean
     CommandLineRunner seedProducts(ProductRepository productRepository, CategoryRepository categoryRepository) {
-        CategoryModel electronics = categoryRepository.findByName("Electronics").orElseThrow();
-        CategoryModel books = categoryRepository.findByName("Books").orElseThrow();
-        CategoryModel clothing = categoryRepository.findByName("Clothing").orElseThrow();
 
-        ProductModel laptop = createProduct("Laptop", "High performance laptop", new BigDecimal("1200.00"), 10, electronics);
-        productRepository.save(laptop);
+        return args -> {
+            if (productRepository.count() == 0) {
+                CategoryModel electronics = categoryRepository.findByName("Electronics").orElseThrow();
+                CategoryModel books = categoryRepository.findByName("Books").orElseThrow();
+                CategoryModel clothing = categoryRepository.findByName("Clothing").orElseThrow();
 
-        ProductModel keyboard = createProduct("Mechanical keyboard", "RGB mechanical keyboard", new BigDecimal("150.00"), 25, electronics);
-        productRepository.save(keyboard);
+                ProductModel laptop = createProduct("Laptop", "High performance laptop", new BigDecimal("1200.00"), 10, electronics);
+                productRepository.save(laptop);
 
-        ProductModel book = createProduct("Clean code", "A handbook of agile software craftsmanship", new BigDecimal("45.00"), 50, books);
-        productRepository.save(book);
+                ProductModel keyboard = createProduct("Mechanical keyboard", "RGB mechanical keyboard", new BigDecimal("150.00"), 25, electronics);
+                productRepository.save(keyboard);
 
-        ProductModel tshirt = createProduct("Basic T-Shirt", "Cotton t-shirt", new BigDecimal("20.00"), 100, clothing);
-        productRepository.save(tshirt);
+                ProductModel book = createProduct("Clean code", "A handbook of agile software craftsmanship", new BigDecimal("45.00"), 50, books);
+                productRepository.save(book);
+
+                ProductModel shirt = createProduct("Basic T-Shirt", "Cotton t-shirt", new BigDecimal("20.00"), 100, clothing);
+                productRepository.save(shirt);
+            }
+        };
     }
 
     private CategoryModel createCategory(String name, String description) {
