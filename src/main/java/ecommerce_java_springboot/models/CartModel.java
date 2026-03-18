@@ -15,7 +15,6 @@ import java.util.List;
 public class CartModel {
 
     @Id
-    @NotNull
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

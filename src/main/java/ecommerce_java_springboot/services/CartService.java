@@ -1,7 +1,9 @@
 package ecommerce_java_springboot.services;
 
 import ecommerce_java_springboot.common.exception.ResourceNotFoundException;
+import ecommerce_java_springboot.dto.cart.CartResponse;
 import ecommerce_java_springboot.dto.request.AddCartItemRequest;
+import ecommerce_java_springboot.mappers.CartMapper;
 import ecommerce_java_springboot.models.CartItemModel;
 import ecommerce_java_springboot.models.CartModel;
 import ecommerce_java_springboot.models.ProductModel;
@@ -28,8 +30,11 @@ public class CartService {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private CartMapper cartMapper;
+
     @Transactional
-    public void addItem(AddCartItemRequest request) {
+    public CartResponse addItem(AddCartItemRequest request) {
         if (request.units() <= 0) {
             throw new IllegalArgumentException("Units must be greater than 0");
         }
@@ -62,6 +67,8 @@ public class CartService {
 
             cartItemRepository.save(cartItem);
         }
+
+        return cartMapper.toResponse(cart);
     }
 
     private CartModel getCurrentUserCart() {

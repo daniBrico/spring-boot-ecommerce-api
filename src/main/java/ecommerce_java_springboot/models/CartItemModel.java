@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 public class CartItemModel {
 
     @Id
-    @NotNull
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
