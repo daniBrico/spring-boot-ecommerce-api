@@ -31,7 +31,7 @@ public class CartService {
         ProductModel product = productRepository.findById(request.productId()).orElseThrow(() -> new ResourceNotFoundException("product not found"));
 
         CartModel cart = getCurrentUserCart();
-        CartItemModel cartItem = cartRepository.findByCartIdAndProductId(cart.getId(), product.getId()).orElse(null);
+        CartItemModel cartItem = cartItemRepository.findByCartIdAndProductId(cart.getId(), product.getId()).orElse(null);
 
         if (cartItem != null) {
             cartItem.setUnits(cartItem.getUnits() + request.units());
