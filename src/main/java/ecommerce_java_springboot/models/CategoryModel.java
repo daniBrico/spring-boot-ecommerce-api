@@ -37,13 +37,4 @@ public class CategoryModel {
             orphanRemoval = true
     )
     private List<ProductModel> products = new ArrayList<>();
-//    public void addProduct(ProductModel product) {
-//        products.add(product);
-//        product.setCategory(this);
-//    }
-//
-//    public void removeProduct(ProductModel product) {
-//        products.remove(product);
-//        product.setCategory(null);
-//    }
 }
