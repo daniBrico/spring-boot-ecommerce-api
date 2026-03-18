@@ -54,6 +54,9 @@ public class UserModel implements UserDetails {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private CartModel cart;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
