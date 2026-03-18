@@ -17,8 +17,6 @@ import java.util.List;
 public class ProductController {
     @Autowired
     ProductService productService;
-    @Autowired
-    private ProductRepository productRepository;
 
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getProducts() {
