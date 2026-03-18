@@ -2,6 +2,7 @@ package ecommerce_java_springboot.controllers;
 
 import ecommerce_java_springboot.dto.request.AddCartItemRequest;
 import ecommerce_java_springboot.services.CartService;
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,8 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping
-    public ResponseEntity<Void> addItem(@RequestBody AddCartItemRequest request){
-
+    public ResponseEntity<Void> addItem(@Valid @RequestBody AddCartItemRequest request){
         cartService.addItem(request);
-
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
