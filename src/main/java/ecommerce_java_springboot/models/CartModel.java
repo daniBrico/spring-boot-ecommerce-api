@@ -8,8 +8,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @Setter
 @Getter
+@Table(name = "cart")
 public class CartModel {
 
     @Id
