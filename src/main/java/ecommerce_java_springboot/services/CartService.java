@@ -71,6 +71,12 @@ public class CartService {
         return cartMapper.toResponse(cart);
     }
 
+    public CartResponse getCart(){
+        CartModel cart = getCurrentUserCart();
+
+        return cartMapper.toResponse(cart);
+    }
+
     private CartModel getCurrentUserCart() {
         UserModel user = authService.getCurrentUser();
 
