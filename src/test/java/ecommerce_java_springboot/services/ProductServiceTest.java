@@ -1,5 +1,6 @@
 package ecommerce_java_springboot.services;
 
+import ecommerce_java_springboot.common.exception.ResourceNotFoundException;
 import ecommerce_java_springboot.dto.product.CreateProductRequest;
 import ecommerce_java_springboot.dto.product.ProductDTO;
 import ecommerce_java_springboot.models.CategoryModel;
@@ -17,9 +18,9 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
@@ -64,5 +65,24 @@ public class ProductServiceTest {
 
         verify(categoryRepository).findById(1L);
         verify(productRepository).save(any(ProductModel.class));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCategoryIsNotFound() {
+
+        CreateProductRequest request = new CreateProductRequest(
+                "Laptop",
+                "High performance laptop",
+                BigDecimal.valueOf(1500),
+                10,
+                1L
+        );
+
+        when(categoryRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> productService.createProduct(request));
+
+        verify(categoryRepository).findById(1L);
+        verify(productRepository, never()).save(any());
     }
 }
