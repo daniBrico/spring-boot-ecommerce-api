@@ -48,4 +48,10 @@ public class ProductService {
 
         return ProductMapper.mapToDTO(savedProduct);
     }
+
+    public ProductDTO getProduct(Long id){
+        ProductModel product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        return ProductMapper.mapToDTO(product);
+    }
 }
