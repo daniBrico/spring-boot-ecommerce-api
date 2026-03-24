@@ -2,7 +2,6 @@ package ecommerce_java_springboot.controllers;
 
 import ecommerce_java_springboot.dto.product.CreateProductRequest;
 import ecommerce_java_springboot.dto.product.ProductDTO;
-import ecommerce_java_springboot.repositories.ProductRepository;
 import ecommerce_java_springboot.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +29,11 @@ public class ProductController {
         ProductDTO product = productService.createProduct(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
+        ProductDTO product = productService.getProduct(id);
+        return ResponseEntity.ok(product);
     }
 }
