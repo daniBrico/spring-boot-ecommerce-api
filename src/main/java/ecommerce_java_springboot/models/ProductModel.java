@@ -43,7 +43,6 @@ public class ProductModel {
     private CategoryModel category;
 
     @CreationTimestamp
-    @NotNull
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 }
