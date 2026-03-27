@@ -5,6 +5,7 @@ import ecommerce_java_springboot.models.enums.UserStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -50,17 +51,12 @@ public class UserModel implements UserDetails {
     @Column(nullable = false)
     private UserStatus status = UserStatus.ACTIVE;
 
-    @NotNull
     @Column(nullable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private CartModel cart;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -69,7 +65,7 @@ public class UserModel implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email; // en tu caso el username ES el email
+        return email;
     }
 
     @Override
