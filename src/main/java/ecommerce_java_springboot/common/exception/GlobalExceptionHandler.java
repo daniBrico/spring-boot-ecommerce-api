@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.nio.file.AccessDeniedException;
@@ -92,5 +93,29 @@ public class GlobalExceptionHandler {
         );
 
         return new  ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiError> handleValidationExceptions(
+            MethodArgumentNotValidException ex,
+            HttpServletRequest request)
+    {
+
+        StringBuilder sb = new StringBuilder();
+        ex.getBindingResult().getFieldErrors().forEach(error -> {
+            sb.append(error.getField())
+                    .append(": ")
+                    .append(error.getDefaultMessage())
+                    .append("; ");
+        });
+
+        ApiError error = new ApiError(
+                HttpStatus.BAD_REQUEST.value(),
+                "Validation Failed",
+                sb.toString(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
