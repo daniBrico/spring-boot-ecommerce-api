@@ -2,12 +2,13 @@ package ecommerce_java_springboot.services;
 
 import ecommerce_java_springboot.common.exception.EmailAlreadyExistsException;
 import ecommerce_java_springboot.common.exception.InvalidCredentialsException;
-import ecommerce_java_springboot.common.exception.ResourceNotFoundException;
 import ecommerce_java_springboot.dto.request.LoginRequest;
 import ecommerce_java_springboot.dto.request.RegisterRequest;
 import ecommerce_java_springboot.models.UserModel;
 import ecommerce_java_springboot.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,16 +20,17 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public UserModel login(LoginRequest request) {
-        UserModel user = userRepository.findByEmail(request.email()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.email(),
+                        request.password()
+                )
+        );
 
-        if (!passwordEncoder.matches(request.password(), user.getPassword())) {
-            throw new InvalidCredentialsException("Invalid credentials");
-        }
-
-        return user;
+        return (UserModel) authentication.getPrincipal();
     }
 
     public UserModel register(RegisterRequest request) {
