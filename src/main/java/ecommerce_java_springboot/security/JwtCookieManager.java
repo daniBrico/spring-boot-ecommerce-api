@@ -9,9 +9,22 @@ public class JwtCookieManager {
 
     public void addJwtCookie(HttpServletResponse response, String token) {
         Cookie cookie = new Cookie("jwt", token);
+        this.applyDefaultCookieSettings(cookie);
+        cookie.setMaxAge(60 * 60);
+        response.addCookie(cookie);
+    }
+
+    public void clearJwtCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("jwt", null);
+        this.applyDefaultCookieSettings(cookie);
+        cookie.setMaxAge(0);
+
+        response.addCookie(cookie);
+    }
+
+    public void applyDefaultCookieSettings(Cookie cookie) {
+//        cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        cookie.setMaxAge(60 * 60); // Debería ponerlo en una variable de entorno
-        response.addCookie(cookie);
     }
 }
