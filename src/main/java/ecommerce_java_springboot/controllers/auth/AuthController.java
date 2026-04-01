@@ -49,4 +49,11 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(authResponse);
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletResponse response) {
+        jwtCookieManager.clearJwtCookie(response);
+
+        return ResponseEntity.noContent().build();
+    }
 }
