@@ -2,8 +2,8 @@ package ecommerce_java_springboot.mappers;
 
 import ecommerce_java_springboot.dto.cart.CartItemResponse;
 import ecommerce_java_springboot.dto.cart.CartResponse;
-import ecommerce_java_springboot.models.CartItemModel;
-import ecommerce_java_springboot.models.CartModel;
+import ecommerce_java_springboot.models.cart.CartItemModel;
+import ecommerce_java_springboot.models.cart.CartModel;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

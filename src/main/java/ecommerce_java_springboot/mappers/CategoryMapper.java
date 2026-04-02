@@ -2,7 +2,7 @@ package ecommerce_java_springboot.mappers;
 
 
 import ecommerce_java_springboot.dto.category.CategoryDTO;
-import ecommerce_java_springboot.models.CategoryModel;
+import ecommerce_java_springboot.models.product.CategoryModel;
 
 public class CategoryMapper {
 

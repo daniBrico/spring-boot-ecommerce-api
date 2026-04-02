@@ -1,5 +1,6 @@
-package ecommerce_java_springboot.models;
+package ecommerce_java_springboot.models.cart;
 
+import ecommerce_java_springboot.models.UserModel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

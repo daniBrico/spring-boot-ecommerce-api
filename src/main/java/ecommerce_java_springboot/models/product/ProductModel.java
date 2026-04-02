@@ -1,4 +1,4 @@
-package ecommerce_java_springboot.models;
+package ecommerce_java_springboot.models.product;
 
 import ecommerce_java_springboot.models.enums.ProductState;
 import jakarta.persistence.*;

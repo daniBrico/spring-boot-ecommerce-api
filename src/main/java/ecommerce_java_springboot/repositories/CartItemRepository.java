@@ -1,6 +1,6 @@
 package ecommerce_java_springboot.repositories;
 
-import ecommerce_java_springboot.models.CartItemModel;
+import ecommerce_java_springboot.models.cart.CartItemModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

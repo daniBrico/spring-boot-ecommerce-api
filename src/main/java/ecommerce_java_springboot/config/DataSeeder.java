@@ -1,7 +1,7 @@
 package ecommerce_java_springboot.config;
 
-import ecommerce_java_springboot.models.CategoryModel;
-import ecommerce_java_springboot.models.ProductModel;
+import ecommerce_java_springboot.models.product.CategoryModel;
+import ecommerce_java_springboot.models.product.ProductModel;
 import ecommerce_java_springboot.models.enums.CategoryState;
 import ecommerce_java_springboot.models.enums.ProductState;
 import ecommerce_java_springboot.repositories.CategoryRepository;

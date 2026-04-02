@@ -1,5 +1,6 @@
 package ecommerce_java_springboot.models;
 
+import ecommerce_java_springboot.models.cart.CartModel;
 import ecommerce_java_springboot.models.enums.Role;
 import ecommerce_java_springboot.models.enums.UserStatus;
 import jakarta.persistence.*;

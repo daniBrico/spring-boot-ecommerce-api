@@ -3,7 +3,7 @@ package ecommerce_java_springboot.services;
 import ecommerce_java_springboot.common.exception.ResourceNotFoundException;
 import ecommerce_java_springboot.dto.category.CategoryDTO;
 import ecommerce_java_springboot.mappers.CategoryMapper;
-import ecommerce_java_springboot.models.CategoryModel;
+import ecommerce_java_springboot.models.product.CategoryModel;
 import ecommerce_java_springboot.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

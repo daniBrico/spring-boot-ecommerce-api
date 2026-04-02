@@ -1,7 +1,7 @@
 package ecommerce_java_springboot.mappers;
 
 import ecommerce_java_springboot.dto.product.ProductDTO;
-import ecommerce_java_springboot.models.ProductModel;
+import ecommerce_java_springboot.models.product.ProductModel;
 
 public class ProductMapper {
 
