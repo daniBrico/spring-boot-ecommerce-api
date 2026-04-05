@@ -118,4 +118,34 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(CartEmptyException.class)
+    public ResponseEntity<ApiError> handleCartEmptyException(
+            CartEmptyException ex,
+            HttpServletRequest request)
+    {
+        ApiError error = new ApiError(
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad request",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(OutOfStockException.class)
+    public ResponseEntity<ApiError> handleOutOfStockException(
+            Exception ex,
+            HttpServletRequest request)
+    {
+        ApiError error = new ApiError(
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad request",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 }
