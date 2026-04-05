@@ -3,8 +3,7 @@ package ecommerce_java_springboot.models.order;
 import ecommerce_java_springboot.models.UserModel;
 import ecommerce_java_springboot.models.enums.OrderState;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
@@ -16,6 +15,9 @@ import java.util.List;
 @Table(name = "orders")
 @Setter
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderModel {
 
     @Id
@@ -43,5 +45,5 @@ public class OrderModel {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<OrderItem> items = new ArrayList<>();
+    private List<OrderItemModel> items = new ArrayList<>();
 }
