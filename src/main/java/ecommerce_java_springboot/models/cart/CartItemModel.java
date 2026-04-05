@@ -2,6 +2,7 @@ package ecommerce_java_springboot.models.cart;
 
 import ecommerce_java_springboot.models.product.ProductModel;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,9 @@ public class CartItemModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Column(nullable = false)
+    @Min(1)
     private int units;
 
     @NotNull
